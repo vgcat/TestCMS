@@ -43,7 +43,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Game(models.Model):
     game_name = models.CharField(_('Game'), max_length=50)
     playes = models.ManyToManyField(User)
-    #TODO fix ManyToMany field
     winner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='win')
 
 class Tag(models.Model):
