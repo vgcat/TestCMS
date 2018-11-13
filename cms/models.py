@@ -44,19 +44,18 @@ class Game(models.Model):
     game_name = models.CharField(_('Game'), max_length=50)
     playes = models.ManyToManyField(User)
     #TODO fix ManyToMany field
-    winner = models.ForeignKey(User, on_delete=models.CASCADE)
+    winner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='win')
 
 class Tag(models.Model):
-    tag_name = models.CharField(_('tag_name'))
+    tag_name = models.CharField(_('tag_name'), max_length=50)
 
 class TournamentPost(models.Model):
     title = models.CharField(_('title'), max_length=50)
     text = models.TextField(_('post'), max_length=1000)
     num_likes = models.IntegerField(_('post likes')) 
-    tags = models.ForeignKey(Tag, on_delete = models.CASCADE)
+    tags = models.ForeignKey(Tag, on_delete = models.CASCADE, related_name='tags')
     game = models.OneToOneField(Game, on_delete=models.CASCADE)
     delay_time = models.BigIntegerField(_('delay time')) #in mind thinked that it's a ms time
-
 
 class Comment(models.Model):
     comment = models.TextField(_('comment'), max_length=200)
