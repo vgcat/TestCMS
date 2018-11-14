@@ -10,10 +10,11 @@ from cms.models import User
 class RegisterUser(APIView):
     
 
-    def post(self, data=r):
+    def post(self, request):
         """
         Have to create user
         """
-        
-        user = User.objects.create_user()
+        email = request. email
+        password = request.password
+        user = User.objects.create_user(email, password=password)
         return user
