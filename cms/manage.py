@@ -1,4 +1,5 @@
 from django.contrib.auth.base_user import BaseUserManager
+from django.db import models
 
 class UserManager(BaseUserManager):
     use_in_migrations = True
@@ -26,3 +27,9 @@ class UserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self._create_user(email, password, **extra_fields)
+
+class GameManager(models.Manager):
+    def _create_game(self, game_name, **players):
+        game = self.model(name=game_name, **players)
+        game.save()
+        return game

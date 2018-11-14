@@ -8,6 +8,10 @@ from .manage import UserManager
 from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 
+LEXERS = [item for item in get_all_lexers() if item[1]]
+LANGUAGE_CHOICES = sorted([(item[1][0], item[0]) for item in LEXERS])
+STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
+
 class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(_('email address'), unique=True)
@@ -60,8 +64,19 @@ class Comment(models.Model):
     comment = models.TextField(_('comment'), max_length=200)
     num_likes = models.IntegerField(_('comment likes')) 
 
+    @property
     def field_highlighting(self):
-        if self.num_likes > 10:
+        if self.num_likes >= 10:
             return True
-        else:
-            False
+
+
+class Snippet(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=100, blank=True, default='')
+    code = models.TextField()
+    linenos = models.BooleanField(default=False)
+    language = models.CharField(choices=LANGUAGE_CHOICES, default='python', max_length=100)
+    style = models.CharField(choices=STYLE_CHOICES, default='friendly', max_length=100)
+
+    class Meta:
+        ordering = ('created',)
