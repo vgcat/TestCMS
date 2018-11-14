@@ -3,16 +3,10 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
-from pygments.lexers import get_all_lexers
-from pygments.styles import get_all_styles
 from .manage import UserManager
 
 from django.utils.translation import ugettext_lazy as _
 # Create your models here.
-
-LEXERS = [item for item in get_all_lexers() if item[1]]
-LANGUAGE_CHOICES = sorted([(item[1][0], item[0]) for item in LEXERS])
-STYLE_CHOICES = sorted((item, item) for item in get_all_styles())
 
 class User(AbstractBaseUser, PermissionsMixin):
 
@@ -50,6 +44,9 @@ class Game(models.Model):
     game_name = models.CharField(_('Game'), max_length=50)
     playes = models.ManyToManyField(User)
     winner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='win')
+    class Meta:
+        verbose_name = _('game')
+        verbose_name_plural = _('games')
 
 class Tag(models.Model):
     tag_name = models.CharField(_('tag_name'), max_length=50)
@@ -70,15 +67,3 @@ class Comment(models.Model):
     def field_highlighting(self):
         if self.num_likes >= 10:
             return True
-
-
-class Snippet(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
-    title = models.CharField(max_length=100, blank=True, default='')
-    code = models.TextField()
-    linenos = models.BooleanField(default=False)
-    language = models.CharField(choices=LANGUAGE_CHOICES, default='python', max_length=100)
-    style = models.CharField(choices=STYLE_CHOICES, default='friendly', max_length=100)
-
-    class Meta:
-        ordering = ('created',)

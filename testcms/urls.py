@@ -19,5 +19,5 @@ from cms.views import RegisterUser
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^registration/', RegisterUser),
+    url(r'^registration/', RegisterUser.as_view()),
 ]
