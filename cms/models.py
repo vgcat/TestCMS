@@ -58,8 +58,6 @@ class TournamentPost(models.Model):
     tags = models.ForeignKey(Tag, on_delete = models.CASCADE, related_name='tags')
     game = models.OneToOneField(Game, on_delete=models.CASCADE)
     delay_time = models.BigIntegerField(_('delay time')) #in mind thinked that it's a ms time
-    post_id = models.AutoField(primary_key=True)
-
 
 class Comment(models.Model):
     comment = models.TextField(_('comment'), max_length=200)

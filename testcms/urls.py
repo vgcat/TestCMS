@@ -23,6 +23,6 @@ urlpatterns = [
     url(r'^registration/', RegisterUserView.as_view()),
     url(r'^login/', LoginView.as_view()),
     url(r'^logout/', LogoutView.as_view(), {'next_page': '/login/'}, name='logout'),
-    url(r'^tournament/list', TournamentListView.as_view()),
-    url(r'^tournament/post/(?P<post_id>\d+))', TournamentPostView.as_view())
+    url(r'^tournament/list/', TournamentListView.as_view()),
+    url(r'^tournament/post/(?P<post_id>\d+)/', TournamentPostView.as_view())
 ]

@@ -2,6 +2,7 @@ from django.http import HttpResponse, JsonResponse
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView)
+from django.contrib.auth.hashers import make_password
 
 #from rest_framework import authentication, permissions, status
 #from rest_framework.parsers import JSONParser
@@ -10,14 +11,17 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView, 
 #from rest_framework.views import APIView
 
 from cms.models import (TournamentPost, User)
+from cms.forms import RegisterForm
 #from cms.serializers import UserSerializer
 # Create your views here.
 
 class RegisterUserView(CreateView):
-    model = User
-    fields = ['email', 'password' ,'first_name', 'last_name', 'is_active', 'avatar', 'is_staff']
+    form_class = RegisterForm
     template_name = "registration/user_form.html"
     success_url = "/login/"
+    
+    def validate_password(self, value):
+        return make_password(value)
 
 
 class TournamentListView(ListView):
@@ -27,7 +31,11 @@ class TournamentListView(ListView):
 class TournamentPostView(DetailView):
     model = TournamentPost
     template_name = "post_detail"
+    pk_url_kwarg ='post_id'
 
+class TournamentPostCreateView(CreateView):
+    model = TournamentPost
+    template_name = ""
 
 
 #class RegisterUser(APIView):
