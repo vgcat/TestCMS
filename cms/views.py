@@ -18,15 +18,13 @@ from django.views.generic import TemplateView, CreateView,UpdateView, DeleteView
 class RegisterUser(CreateView):
     model = User
     fields = ['email', 'password' ,'first_name', 'last_name', 'is_active', 'avatar', 'is_staff']
-    template_name = "user_form.htlm"
-    success_url = "login_form.html"
+    template_name = "user_form.html"
+    success_url = "/login/"
 
-class LoginUser(CreateView):
+class LoginUser():
     model = User
     fields=['email', 'password']
-    def create_access(self):
-        return a
-    
+    template_name = 'login_form.html'
 
 
 #class RegisterUser(APIView):
