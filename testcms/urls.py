@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from cms.views import RegisterUserView, TournamentListView, TournamentPostView
+from cms.views import RegisterUserView, TournamentListView, TournamentPostView, TournamentPostCreateView
 from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
@@ -24,5 +24,6 @@ urlpatterns = [
     url(r'^login/', LoginView.as_view()),
     url(r'^logout/', LogoutView.as_view(), {'next_page': '/login/'}, name='logout'),
     url(r'^tournament/list/', TournamentListView.as_view()),
-    url(r'^tournament/post/(?P<post_id>\d+)/', TournamentPostView.as_view())
+    url(r'^tournament/post/(?P<post_id>\d+)/', TournamentPostView.as_view()),
+    url(r'^tournament/create_post/', TournamentPostCreateView.as_view())
 ]

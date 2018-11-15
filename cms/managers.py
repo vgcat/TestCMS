@@ -29,7 +29,16 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, **extra_fields)
 
 class GameManager(models.Manager):
+    
     def _create_game(self, game_name, **players):
         game = self.model(name=game_name, **players)
-        game.save()
+        game.save(using=self._db)
         return game
+
+class TournamentPostManager(models.Manager):
+
+    def create_post(self, title, text, **extra_fields):
+        if not title or text:
+            raise ValueError('Write some title and post')
+        post = self.model(title=title, text=text, **extra_fields)
+        post.save(using=self._db)

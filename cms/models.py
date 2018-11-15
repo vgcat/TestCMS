@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser
-from .managers import UserManager
+from .managers import UserManager, GameManager, TournamentPostManager
 
 from django.utils.translation import ugettext_lazy as _
 # Create your models here.
@@ -44,9 +44,13 @@ class Game(models.Model):
     game_name = models.CharField(_('Game'), max_length=50)
     playes = models.ManyToManyField(User)
     winner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='win')
+    date_added = models.DateTimeField(_('date added'), auto_now_add=True)
+
     class Meta:
         verbose_name = _('game')
         verbose_name_plural = _('games')
+
+    objects = GameManager()
 
 class Tag(models.Model):
     tag_name = models.CharField(_('tag_name'), max_length=50)
@@ -58,6 +62,8 @@ class TournamentPost(models.Model):
     tags = models.ForeignKey(Tag, on_delete = models.CASCADE, related_name='tags')
     game = models.OneToOneField(Game, on_delete=models.CASCADE)
     delay_time = models.BigIntegerField(_('delay time')) #in mind thinked that it's a ms time
+
+    objects = TournamentPostManager()
 
 class Comment(models.Model):
     comment = models.TextField(_('comment'), max_length=200)

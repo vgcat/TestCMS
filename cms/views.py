@@ -35,7 +35,9 @@ class TournamentPostView(DetailView):
 
 class TournamentPostCreateView(CreateView):
     model = TournamentPost
-    template_name = ""
+    template_name = "tournament_post_form.html"
+    fields = ('title', 'text', 'tags', 'game', 'delay_time')
+    success_url = "/tournament/list/"
 
 
 #class RegisterUser(APIView):
