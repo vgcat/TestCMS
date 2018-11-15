@@ -1,30 +1,33 @@
-#for serializing
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import authentication, permissions, status
-from rest_framework.parsers import JSONParser
-from rest_framework.renderers import JSONRenderer
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView)
 
-from cms.models import User
-from cms.serializers import UserSerializer
-from django.views.generic import TemplateView, CreateView,UpdateView, DeleteView, DetailView
+#from rest_framework import authentication, permissions, status
+#from rest_framework.parsers import JSONParser
+#from rest_framework.renderers import JSONRenderer
+#from rest_framework.response import Response
+#from rest_framework.views import APIView
 
-
+from cms.models import (TournamentPost, User)
+#from cms.serializers import UserSerializer
 # Create your views here.
 
-class RegisterUser(CreateView):
+class RegisterUserView(CreateView):
     model = User
     fields = ['email', 'password' ,'first_name', 'last_name', 'is_active', 'avatar', 'is_staff']
-    template_name = "user_form.html"
+    template_name = "registration/user_form.html"
     success_url = "/login/"
 
-class LoginUser():
-    model = User
-    fields=['email', 'password']
-    template_name = 'login_form.html'
+
+class TournamentListView(ListView):
+    model = TournamentPost
+    template_name = "tournament_post_list.html"
+
+class TournamentPostView(DetailView):
+    model = TournamentPost
+    template_name = "post_detail"
+
 
 
 #class RegisterUser(APIView):

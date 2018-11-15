@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from cms.views import RegisterUser, LoginUser
+from cms.views import RegisterUserView, TournamentListView, TournamentPostView
+from django.contrib.auth.views import LoginView, LogoutView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^registration/', RegisterUser.as_view()),
-    url(r'^login/', LoginUser.as_view()),
+    url(r'^registration/', RegisterUserView.as_view()),
+    url(r'^login/', LoginView.as_view()),
+    url(r'^logout/', LogoutView.as_view(), {'next_page': '/login/'}, name='logout'),
+    url(r'^tournament/list', TournamentListView.as_view()),
+    url(r'^tournament/post/(?P<post_id>\d+))', TournamentPostView.as_view())
 ]
